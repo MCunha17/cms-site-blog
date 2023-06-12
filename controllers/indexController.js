@@ -1,4 +1,4 @@
-const Post = require('../models/post');
+const Post = require('../models/Post');
 
 // Handle homepage request
 exports.homepage = async (req, res) => {

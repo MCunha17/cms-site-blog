@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { hashPassword, authenticateUser } = require('../utils/authentication');
-const User = require('../models/user');
+const User = require('../models/User');
 
 // Sign up route
 router.get('/signup', (req, res) => {
