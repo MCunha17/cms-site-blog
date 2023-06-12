@@ -19,16 +19,16 @@ exports.showPost = async (req, res) => {
 exports.leaveComment = async (req, res) => {
     try {
         const postId = req.params.postId;
-         { comment } = req.body;
+        const { comment } = req.body;
 
         // Save the comment in the database
         await Comment.create({
             content: comment,
             postId,
             userId: req.session.user.id, // Assuming user information is stored in the session
-            });
+        });
 
-    // Redirect back to the blog post page
+        // Redirect back to the blog post page
         res.redirect(`/posts/${postId}`);
     } catch (error) {
         res.render('error', { error: 'An error occurred' });
@@ -53,12 +53,12 @@ exports.createPost = async (req, res) => {
     try {
         const { title, content } = req.body;
 
-        // Create a new blog post in the database
-        await Post.create({
-            title,
-            content,
-            userId: req.session.user.id, // Assuming user information is stored in the session
-        });
+    // Create a new blog post in the database
+    await Post.create({
+        title,
+        content,
+        userId: req.session.user.id, // Assuming user information is stored in the session
+    });
 
     // Redirect back to the dashboard
         res.redirect('/dashboard');
