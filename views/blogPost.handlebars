@@ -1,0 +1,32 @@
+{{!-- Use the main layout --}}
+{{#extends 'layouts/main'}}
+
+{{!-- Specify the content for the body --}}
+{{#content 'body'}}
+    <article>
+        <h2>{{blogPost.title}}</h2>
+        <p>Created by: {{blogPost.createdBy}}</p>
+        <p>Created on: {{blogPost.createdAt}}</p>
+        <p>{{blogPost.content}}</p>
+    </article>
+
+    <h3>Comments</h3>
+    {{#each blogPost.comments}}
+        <div class="comment">
+            <p>{{this.content}}</p>
+            <p>Posted by: {{this.createdBy}}</p>
+            <p>Posted on: {{this.createdAt}}</p>
+        </div>
+  {{/each}}
+
+  {{!-- Comment form --}}
+  <form method="POST" action="/posts/{{blogPost.id}}/comment">
+    <div>
+        <label for="comment">Leave a Comment:</label>
+        <textarea id="comment" name="comment" required></textarea>
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+    </form>
+{{/content}}
