@@ -1,23 +1,11 @@
-{{!-- Use the main layout --}}
-{{#extends 'layouts/main'}}
+<h1>Login</h1>
 
-{{!-- Specify the content for the body --}}
-{{#content 'body'}}
-    <h2>Login</h2>
-    {{#if error}}
-        <p class="error">{{error}}</p>
-    {{/if}}
-    <form method="POST" action="/auth/login">
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <div>
-            <button type="submit">Login</button>
-        </div>
-    </form>
-{{/content}}
+<form action="/api/users/login" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <button type="submit">Login</button>
+</form>
+
+<p>Don't have an account? <a href="/signup">Sign Up</a></p>
