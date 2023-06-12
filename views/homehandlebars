@@ -1,0 +1,9 @@
+<h1>Welcome to our Tech Blog</h1>
+
+{{#if posts.length}}
+<section class="posts">
+    {{> postBlock}}
+</section>
+{{else}}
+<p>No posts have been created yet.</p>
+{{/if}}
