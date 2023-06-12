@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { hashPassword, authenticateUser } = require('../utils/authentication');
+const { hashPassword, authenticateUser } = require('../utils/auth');
 const User = require('../models/User');
 
 // Sign up route

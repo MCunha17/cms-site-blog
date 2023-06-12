@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateUser } = require('../utils/authentication');
+const { authenticateUser } = require('../utils/auth');
 
 // Homepage route
 router.get('/', (req, res) => {
