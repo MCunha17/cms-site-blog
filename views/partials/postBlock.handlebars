@@ -1,0 +1,11 @@
+{{#each posts as |post|}}
+<div class="post-block">
+    <h2>{{post.title}}</h2>
+    <p>{{post.content}}</p>
+    <h5>Posted by: {{post.username}}</h5>
+    <small>Posted on: {{format_date post.date_created}}</small>
+    {{#if logged_in}}
+    <a href="/post/{{post.id}}">View / Comment</a>
+    {{/if}}
+</div>
+{{/each}}
