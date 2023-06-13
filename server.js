@@ -1,15 +1,22 @@
+// Handles file paths
 const path = require('path');
 const express = require('express');
+// Manages session
 const session = require('express-session');
+// Sets up Handlebar view engine
 const exphbs = require('express-handlebars');
+// Stores session data in the Sequelize database
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const routes = require('./controllers');
-const helpers = require('./utils/helpers');
 const sequelize = require('./config/connection');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Set view engine to use Handlebars
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 
 const sess = {
   secret: 'Super secret secret',
@@ -21,11 +28,7 @@ const sess = {
   })
 };
 
-const hbs = exphbs.create({ helpers });
-
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
-
+// 'Session' middleware
 app.use(session(sess));
 
 app.use(express.json());

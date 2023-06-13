@@ -1,16 +1,16 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../models');
-const withAuth = require('../utils/auth');
+const withAuth = require('../../utils/auth');
 
 // Dashboard route
 router.get('/dashboard', withAuth, async (req, res) => {
-  try {
-    // Fetch all blog posts created by the logged-in user
-    const postData = await Post.findAll({
-      where: { user_id: req.session.user_id },
-      include: [{ model: User }],
-      order: [['createdAt', 'DESC']],
-    });
+    try {
+        // Fetch all blog posts created by the logged-in user
+        const postData = await Post.findAll({
+            where: { user_id: req.session.user_id },
+            include: [{ model: User }],
+            order: [['createdAt', 'DESC']],
+        });
 
     // Serialize the blog post data
     const posts = postData.map((post) => post.get({ plain: true }));
@@ -23,9 +23,9 @@ router.get('/dashboard', withAuth, async (req, res) => {
   }
 });
 
-// New post form route
+// Renders form to create a new blog post
 router.get('/dashboard/new', withAuth, (req, res) => {
-  res.render('new-post', { loggedIn: true });
+  res.render('post-block', { loggedIn: true });
 });
 
 // Edit post form route
@@ -45,7 +45,7 @@ router.get('/dashboard/edit/:id', withAuth, async (req, res) => {
     const post = postData.get({ plain: true });
 
     // Render the edit post form view and pass the serialized data to the template
-    res.render('edit-post', { post, loggedIn: true });
+    res.render('post-block', { post, loggedIn: true });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

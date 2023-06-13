@@ -1,78 +1,67 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
-router.post('/', async (req, res) => {
-  try {
-    const userData = await User.create(req.body);
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-
-      res.status(200).json(userData);
-    });
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
-
+// Post request to '/signup'
 router.post('/signup', async (req, res) => {
   try {
     const { username, password } = req.body;
-
-    // Create a new user
+    // Create a new user using the 'User.create' method from the 'User' model
     const newUser = await User.create({ username, password });
-
-    // You can perform additional actions here, such as logging in the user or sending a confirmation email
-
+    // Saves user's ID and sets the 'logged_in' property to 'true'
     req.session.save(() => {
       req.session.user_id = newUser.id;
       req.session.logged_in = true;
-
+      // Redirects to the '/dashboard' route
       res.redirect('/dashboard');
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to sign up' });
+    // If error occurs, responds with a 500 status message
+    res.status(500).json({ error: 'Unable to complete signup.' });
   }
 });
 
+// Post request to '/login'
 router.post('/login', async (req, res) => {
     try {
-      const { email, password } = req.body;
-  
-      const userData = await User.findOne({ where: { email } });
-  
+      const { userName, password } = req.body;
+      // Retrieves the user data based on the provided userName using the User.findOne method from the 'User' model
+      const userData = await User.findOne({ where: { userName } });
       if (!userData) {
-        res.status(400).json({ message: 'Incorrect email or password, please try again' });
+        // Iff no user is found with the given username, responds with 400 status message
+        res.status(400).json({ message: 'Incorrect username.' });
         return;
       }
-  
+      // If user is found, checks the password's validity
       const validPassword = await userData.checkPassword(password);
-  
       if (!validPassword) {
-        res.status(400).json({ message: 'Incorrect email or password, please try again' });
+        // If password is invalid, responds with 400 status message
+        res.status(400).json({ message: 'Incorrect password.' });
         return;
       }
-  
+      // If the username and password are valid, saves the user's ID and sets the 'logged_in' property to 'true'
       req.session.save(() => {
         req.session.user_id = userData.id;
         req.session.logged_in = true;
-  
+        // Redirects the user to the '/dashboard' route
         res.redirect('/dashboard');
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Failed to log in' });
+      // If an error occurs, displays a 500 status message
+      res.status(500).json({ error: 'Unable to login' });
     }
   });
 
+// Post reques to '/logout'
 router.post('/logout', (req, res) => {
+  // If the user is logged in, it distroys session and responds with 204 status message
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
     });
   } else {
+    // If the user is not logged in, responds with a 404 status message
     res.status(404).end();
   }
 });

@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
 
-// Home route
+// Renders homepage view
 router.get('/', async (req, res) => {
   try {
-    // Fetch all blog posts from the database
+    // Fetches all blog posts from the database
     const postData = await Post.findAll({
+      // Includes the 'User' model to access user information associated with each post
       include: [{ model: User }],
       order: [['createdAt', 'DESC']],
     });
@@ -21,12 +22,12 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Login route
+// Login route, renders login view template
 router.get('/login', async (req, res) => {
   res.render('login');
 });
 
-// Signup route
+// Signup route, renders signup view template
 router.get('/signup', async (req, res) => {
   res.render('signup');
 });

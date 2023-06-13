@@ -1,5 +1,12 @@
 const router = require('express').Router();
 const { Comment } = require('../../models');
+const withAuth = require('../../utils/auth');
+
+// Get comments
+// Renders 'comment-block' view if users are logged in with withAuth middleware
+router.post('/', withAuth, (req, res) => {
+  res.render('comment-block', { loggedIn: true });
+});
 
 // Create a new comment
 router.post('/', async (req, res) => {
@@ -26,7 +33,7 @@ router.delete('/:id', async (req, res) => {
     });
 
     if (!commentData) {
-      res.status(404).json({ message: 'No comment found with this id!' });
+      res.status(404).json({ message: 'No comment found with this id.' });
       return;
     }
 
