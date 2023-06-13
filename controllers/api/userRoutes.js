@@ -16,37 +16,56 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/signup', async (req, res) => {
   try {
-    const userData = await User.findOne({ where: { email: req.body.email } });
+    const { username, password } = req.body;
 
-    if (!userData) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
-      return;
-    }
+    // Create a new user
+    const newUser = await User.create({ username, password });
 
-    const validPassword = await userData.checkPassword(req.body.password);
-
-    if (!validPassword) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
-      return;
-    }
+    // You can perform additional actions here, such as logging in the user or sending a confirmation email
 
     req.session.save(() => {
-      req.session.user_id = userData.id;
+      req.session.user_id = newUser.id;
       req.session.logged_in = true;
-      
-      res.json({ user: userData, message: 'You are now logged in!' });
-    });
 
-  } catch (err) {
-    res.status(400).json(err);
+      res.redirect('/dashboard');
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to sign up' });
   }
 });
+
+router.post('/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+  
+      const userData = await User.findOne({ where: { email } });
+  
+      if (!userData) {
+        res.status(400).json({ message: 'Incorrect email or password, please try again' });
+        return;
+      }
+  
+      const validPassword = await userData.checkPassword(password);
+  
+      if (!validPassword) {
+        res.status(400).json({ message: 'Incorrect email or password, please try again' });
+        return;
+      }
+  
+      req.session.save(() => {
+        req.session.user_id = userData.id;
+        req.session.logged_in = true;
+  
+        res.redirect('/dashboard');
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to log in' });
+    }
+  });
 
 router.post('/logout', (req, res) => {
   if (req.session.logged_in) {

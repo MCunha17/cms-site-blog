@@ -1,10 +1,6 @@
 const router = require('express').Router();
 const apiRoutes = require('./api');
-
-// Root route
-router.get('/', (req, res) => {
-    res.render('home.handlebars');
-});
+const exphbs = require('express-handlebars');
 
 // API routes
 router.use('/api', apiRoutes);
