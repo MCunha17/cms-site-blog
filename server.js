@@ -15,7 +15,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Set view engine to use Handlebars
-app.engine('handlebars', exphbs());
+const hbs = exphbs.create();
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 const sess = {
