@@ -1,0 +1,17 @@
+[
+    {
+      "title": "Project 1",
+      "description": "This is the first project",
+      "user_id": 1
+    },
+    {
+      "title": "Project 2",
+      "description": "This is the second project",
+      "user_id": 2
+    },
+    {
+      "title": "Project 3",
+      "description": "This is the third project",
+      "user_id": 1
+    }
+  ]  

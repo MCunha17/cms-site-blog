@@ -1,6 +1,6 @@
-/* styles.css */
+/* style.css */
 
-/* Global styles */
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,7 +8,7 @@ body {
 }
   
 .container {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -16,24 +16,49 @@ body {
 /* Navigation */
 nav {
     background-color: #333;
-    color: #fff;
     padding: 10px;
 }
   
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-  
-nav ul li {
-    display: inline-block;
+nav a {
+    color: #fff;
+    text-decoration: none;
     margin-right: 10px;
 }
   
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
+/* Homepage */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+  
+.posts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+  
+.post-block {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+  
+.post-block h2 {
+    margin: 0;
+}
+  
+/* Single Post */
+.comments {
+    margin-top: 30px;
+}
+  
+.comment-block {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+  
+.comment-block h5 {
+    margin-top: 0;
 }
   
 /* Forms */
@@ -41,38 +66,70 @@ form {
     margin-bottom: 20px;
 }
   
-label {
+form label {
     display: block;
-    margin-bottom: 5px;
+    margin-top: 10px;
 }
   
-input[type="text"],
-input[type="password"],
-textarea {
+form input[type="text"],
+form input[type="password"],
+form textarea {
     width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+  
+form button[type="submit"] {
+    padding: 5px 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+  
+/* Dashboard */
+.dashboard h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+  
+.your-posts {
+    margin-top: 30px;
+}
+  
+.your-posts .post-block {
+    border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
 }
   
-button {
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+.your-posts h3 {
+    margin: 0;
 }
   
-/* Blog post */
-article {
+.your-posts form {
+    margin-top: 10px;
+}
+  
+/* Login/Signup */
+.login h1,
+.signup h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+  
+.login p,
+.signup p {
+    text-align: center;
     margin-bottom: 20px;
 }
   
-h2 {
-    margin-bottom: 10px;
-}
-  
-.comment {
-margin-bottom: 10px;
-padding: 10px;
-background-color: #f5f5f5;
-}
+.login a,
+.signup a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}  

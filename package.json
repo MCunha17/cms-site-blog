@@ -8,5 +8,22 @@
     "express-session": "^1.17.3",
     "mysql2": "^3.3.4",
     "sequelize": "^6.32.0"
-  }
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "name": "cms-site-blog",
+  "description": "",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MCunha17/cms-site-blog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MCunha17/cms-site-blog/issues"
+  },
+  "homepage": "https://github.com/MCunha17/cms-site-blog#readme"
 }
