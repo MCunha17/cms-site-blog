@@ -1,14 +1,26 @@
-// Format date in a readable format
-const formatDate = (date) => {
-  return new Date(date).toLocaleDateString();
+const bcrypt = require('bcrypt');
+
+const helpers = {
+  // Hashes the provided password
+  hashPassword: async (password) => {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      return hashedPassword;
+    } catch (error) {
+      throw new Error('Error hashing password');
+    }
+  },
+
+  // Compares the provided password with the hashed password
+  comparePassword: async (password, hashedPassword) => {
+    try {
+      const match = await bcrypt.compare(password, hashedPassword);
+      return match;
+    } catch (error) {
+      throw new Error('Error comparing passwords');
+    }
+  },
 };
 
-// Truncate text to a specified length
-const truncateText = (text, length) => {
-  if (text.length > length) {
-    return text.substring(0, length) + '...';
-  }
-  return text;
-};
-
-module.exports = { formatDate, truncateText };
+module.exports = helpers;

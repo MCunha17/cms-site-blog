@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const { Post } = require('../../models');
-const { authMiddleware } = require('../../middleware');
 
-// authMiddleware
-router.post('/', authMiddleware, async (req, res) => {
+// Create a new post
+router.post('/', async (req, res) => {
   try {
     const newPost = await Post.create({
       title: req.body.title,
@@ -17,7 +16,8 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
-router.put('/:id', authMiddleware, async (req, res) => {
+// Update a post by ID
+router.put('/:id', async (req, res) => {
   try {
     const [updatedRows] = await Post.update(
       {
@@ -42,7 +42,8 @@ router.put('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-router.delete('/:id', authMiddleware, async (req, res) => {
+// Delete a post by ID
+router.delete('/:id', async (req, res) => {
   try {
     const deletedPost = await Post.destroy({
       where: {
