@@ -22,6 +22,11 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Dashboard route, renders dashboard view template
+router.get('/dashboard', async (req, res) => {
+  res.render('dashboard');
+});
+
 // Login route, renders login view template
 router.get('/login', async (req, res) => {
   res.render('login');
