@@ -1,22 +1,56 @@
 const router = require('express').Router();
-const { User, Post } = require('../models');
+const { User, Post, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 // Dashboard route
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
-    // Find the logged-in user
-    const userData = await User.findByPk(req.session.user_id, {
-      attributes: { exclude: ['password'] },
-      include: [{ model: Post }],
+    // Fetch all blog posts created by the logged-in user
+    const postData = await Post.findAll({
+      where: { user_id: req.session.user_id },
+      include: [{ model: User }],
+      order: [['createdAt', 'DESC']],
     });
 
-    const user = userData.get({ plain: true });
+    // Serialize the blog post data
+    const posts = postData.map((post) => post.get({ plain: true }));
 
-    res.render('dashboard', { user });
+    // Render the dashboard view and pass the serialized data to the template
+    res.render('dashboard', { posts, loggedIn: true });
   } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+// New post form route
+router.get('/dashboard/new', withAuth, (req, res) => {
+  res.render('new-post', { loggedIn: true });
+});
+
+// Edit post form route
+router.get('/dashboard/edit/:id', withAuth, async (req, res) => {
+  try {
+    // Fetch the blog post with the specified id
+    const postData = await Post.findByPk(req.params.id, {
+      include: [{ model: User }],
+    });
+
+    if (!postData) {
+      res.status(404).json({ message: 'No post found with this id' });
+      return;
+    }
+
+    // Serialize the blog post data
+    const post = postData.get({ plain: true });
+
+    // Render the edit post form view and pass the serialized data to the template
+    res.render('edit-post', { post, loggedIn: true });
+  } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
 
 module.exports = router;
+
