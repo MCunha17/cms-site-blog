@@ -1,0 +1,11 @@
+<div class="post">
+  <h3>{{title}}</h3>
+  <p class="post-details">
+    By {{User.username}} on {{createdAt}}
+  </p>
+  <div class="post-actions">
+    <a href="/post/{{id}}" class="btn">View</a>
+    <a href="/post/edit/{{id}}" class="btn">Edit</a>
+    <button class="btn delete-post-btn" data-id="{{id}}">Delete</button>
+  </div>
+</div>

@@ -1,9 +1,14 @@
-<h1>Welcome to our Tech Blog</h1>
-
-{{#if posts.length}}
-<section class="posts">
-    {{> postBlock}}
-</section>
+{{#if posts}}
+  <h2>Recent Posts</h2>
+  {{#each posts}}
+    <div class="post">
+      <h3>{{title}}</h3>
+      <p class="post-details">
+        By {{User.username}} on {{createdAt}}
+      </p>
+      <a href="/post/{{id}}" class="btn">Read More</a>
+    </div>
+  {{/each}}
 {{else}}
-<p>No posts have been created yet.</p>
+  <p>No posts available.</p>
 {{/if}}

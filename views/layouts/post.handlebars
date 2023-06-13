@@ -1,0 +1,32 @@
+<article class="post">
+  <h2>{{post.title}}</h2>
+  <p class="post-details">
+    By {{post.User.username}} on {{post.createdAt}}
+  </p>
+  <div class="post-content">
+    {{{post.content}}}
+  </div>
+</article>
+
+{{#if loggedIn}}
+  <form class="comment-form">
+    <textarea name="comment" placeholder="Leave a comment"></textarea>
+    <button type="submit" class="btn">Submit</button>
+  </form>
+{{else}}
+  <p>Please <a href="/login">login</a> to leave a comment.</p>
+{{/if}}
+
+{{#if post.Comments}}
+  <h3>Comments</h3>
+  {{#each post.Comments}}
+    <div class="comment">
+      <p>{{this.content}}</p>
+      <p class="comment-details">
+        By {{this.User.username}} on {{this.createdAt}}
+      </p>
+    </div>
+  {{/each}}
+{{else}}
+  <p>No comments yet.</p>
+{{/if}}

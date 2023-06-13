@@ -10,7 +10,7 @@
     "sequelize": "^6.32.0"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node server.js"
   },
   "name": "cms-site-blog",
   "description": "",
