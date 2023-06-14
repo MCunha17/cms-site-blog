@@ -1,12 +1,10 @@
 // Necessary dependencies
 const router = require('express').Router();
-const apiRoutes = require('./api');
 const homeRoutes = require('./homeRoutes');
+const apiRoutes = require('./api');
 
 // Home handlebars
 router.use('/', homeRoutes);
-
-// API routes
 router.use('/api', apiRoutes);
 
 // Exports the router

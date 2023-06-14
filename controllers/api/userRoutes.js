@@ -1,6 +1,38 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
+// Post request to '/login'
+router.post('/login', async (req, res) => {
+  try {
+    const { userName, password } = req.body;
+    // Retrieves the user data based on the provided userName using the User.findOne method from the 'User' model
+    const userData = await User.findOne({ where: { userName } });
+    if (!userData) {
+      // If no user is found with the given username, responds with 400 status message
+      res.status(400).json({ message: 'Incorrect username.' });
+      return;
+    }
+    // If user is found, checks the password's validity
+    const validPassword = await userData.checkPassword(password);
+    if (!validPassword) {
+      // If password is invalid, responds with 400 status message
+      res.status(400).json({ message: 'Incorrect password.' });
+      return;
+    }
+    // If the username and password are valid, saves the user's ID and sets the 'logged_in' property to 'true'
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+      // Redirects the user to the '/dashboard' route
+      res.redirect('/dashboard');
+    });
+  } catch (error) {
+    console.error(error);
+    // If an error occurs, displays a 500 status message
+    res.status(500).json({ error: 'Unable to login.' });
+  }
+});
+
 // Post request to '/signup'
 router.post('/signup', async (req, res) => {
   try {
@@ -20,38 +52,6 @@ router.post('/signup', async (req, res) => {
     res.status(500).json({ error: 'Unable to complete signup.' });
   }
 });
-
-// Post request to '/login'
-router.post('/login', async (req, res) => {
-    try {
-      const { userName, password } = req.body;
-      // Retrieves the user data based on the provided userName using the User.findOne method from the 'User' model
-      const userData = await User.findOne({ where: { userName } });
-      if (!userData) {
-        // Iff no user is found with the given username, responds with 400 status message
-        res.status(400).json({ message: 'Incorrect username.' });
-        return;
-      }
-      // If user is found, checks the password's validity
-      const validPassword = await userData.checkPassword(password);
-      if (!validPassword) {
-        // If password is invalid, responds with 400 status message
-        res.status(400).json({ message: 'Incorrect password.' });
-        return;
-      }
-      // If the username and password are valid, saves the user's ID and sets the 'logged_in' property to 'true'
-      req.session.save(() => {
-        req.session.user_id = userData.id;
-        req.session.logged_in = true;
-        // Redirects the user to the '/dashboard' route
-        res.redirect('/dashboard');
-      });
-    } catch (error) {
-      console.error(error);
-      // If an error occurs, displays a 500 status message
-      res.status(500).json({ error: 'Unable to login' });
-    }
-  });
 
 // Post reques to '/logout'
 router.post('/logout', (req, res) => {

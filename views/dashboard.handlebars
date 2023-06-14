@@ -1,35 +1,14 @@
-<h2>Welcome, {{username}}!</h2>
+<h2>My Dashboard</h2>
 
-{{#if posts}}
-  <h3>Your Posts</h3>
+{{#if posts.length}}
   {{#each posts}}
     <div class="post">
       <h3>{{title}}</h3>
       <p class="post-details">
-        By {{User.username}} on {{createdAt}}
+        Posted by {{User.username}} on {{createdAt}}
       </p>
-      <div class="post-actions">
-        <a href="/post/{{id}}" class="btn">View</a>
-        <a href="/post/edit/{{id}}" class="btn">Edit</a>
-        <button class="btn delete-post-btn" data-id="{{id}}">Delete</button>
-      </div>
     </div>
   {{/each}}
 {{else}}
   <p>No posts available.</p>
 {{/if}}
-
-<h3>Create a New Post</h3>
-<form class="create-post-form">
-  <div>
-    <label for="post-title">Title:</label>
-    <input type="text" id="post-title" name="title" required>
-  </div>
-  <div>
-    <label for="post-content">Content:</label>
-    <textarea id="post-content" name="content" required></textarea>
-  </div>
-  <button type="submit" class="btn">Create Post</button>
-</form>
-
-<script src="/js/script.js"></script>

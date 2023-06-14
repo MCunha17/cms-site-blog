@@ -25,5 +25,6 @@
   "bugs": {
     "url": "https://github.com/MCunha17/cms-site-blog/issues"
   },
-  "homepage": "https://github.com/MCunha17/cms-site-blog#readme"
+  "homepage": "https://github.com/MCunha17/cms-site-blog#readme",
+  "devDependencies": {}
 }

@@ -1,0 +1,10 @@
+{!< main}
+
+{{#if loggedIn}}
+  <form class="comment-form">
+    <textarea name="comment" placeholder="Leave a comment"></textarea>
+    <button type="submit" class="btn">Submit</button>
+  </form>
+{{else}}
+  <p>Please <a href="/login">login</a> to leave a comment.</p>
+{{/if}}

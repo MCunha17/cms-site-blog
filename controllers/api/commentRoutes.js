@@ -9,7 +9,8 @@ router.post('/', withAuth, (req, res) => {
 });
 
 // Create a new comment
-router.post('/', async (req, res) => {
+// Protected route with withAuth middleware to ensure users are authenticated/logged in
+router.post('/create', withAuth, async (req, res) => {
   try {
     const newComment = await Comment.create({
       ...req.body,
@@ -23,7 +24,8 @@ router.post('/', async (req, res) => {
 });
 
 // Delete a comment by ID
-router.delete('/:id', async (req, res) => {
+// Protected route with withAuth middleware to ensure users are authenticated/logged in
+router.delete('/:id', withAuth, async (req, res) => {
   try {
     const commentData = await Comment.destroy({
       where: {

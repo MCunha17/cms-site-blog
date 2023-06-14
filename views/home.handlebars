@@ -1,12 +1,10 @@
 {{#if posts}}
-  <h2>Recent Posts</h2>
   {{#each posts}}
     <div class="post">
       <h3>{{title}}</h3>
       <p class="post-details">
-        By {{User.username}} on {{createdAt}}
+        Posted by {{User.username}} on {{createdAt}}
       </p>
-      <a href="/post/{{id}}" class="btn">Read More</a>
     </div>
   {{/each}}
 {{else}}
