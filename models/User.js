@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
 class User extends Model {
-  async checkPassword(password) {
-    return await bcrypt.compare(password, this.password);
+  checkPassword(password) {
+    return bcrypt.compareSync(password, this.password);
   }
 }
 
@@ -28,28 +28,22 @@ User.init(
   },
   {
     hooks: {
-      beforeCreate: async (newUserData) => {
-        try {
-          newUserData.password = await bcrypt.hash(newUserData.password, 10);
-          return newUserData;
-        } catch (error) {
-          console.error('Error hashing password:', error);
-        }
+      beforeCreate: async (user) => {
+        user.password = await bcrypt.hash(user.password, 10);
+        return user;
       },
-      beforeUpdate: async (updatedUserData) => {
-        try {
-          updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
-          return updatedUserData;
-        } catch (error) {
-          console.error('Error hashing password:', error);
+      beforeUpdate: async (user) => {
+        if (user.password) {
+          user.password = await bcrypt.hash(user.password, 10);
         }
+        return user;
       },
     },
     sequelize,
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'User',
+    modelName: 'user',
   }
 );
 

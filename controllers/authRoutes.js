@@ -1,72 +1,61 @@
 const router = require('express').Router();
 const { User } = require('../models');
-const bcrypt = require('bcrypt');
-
-router.get('/login', (req, res) => {
-  res.render('login', {layout: 'main'});
-});
-
-router.post('/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-
-    const user = await User.findOne({ where: { username } });
-
-    if (!user) {
-      res.status(400).json({ message: 'Incorrect username or password.' });
-      return;
-    }
-
-    const validPassword = await bcrypt.compare(password, user.password);
-
-    if (!validPassword) {
-      res.status(400).json({ message: 'Incorrect username or password.' });
-      return;
-    }
-
-    req.session.save(() => {
-      req.session.user_id = user.id;
-      req.session.logged_in = true;
-      res.redirect('/dashboard');
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
-
-router.get('/signup', (req, res) => {
-  res.render('signup', {layout: 'main'});
-});
 
 router.post('/signup', async (req, res) => {
+    try {
+      // Check if the email already exists in the database
+      const existingUser = await User.findOne({ where: { email: req.body.email } });
+      if (existingUser) {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+  
+      // Create a new user record in the database
+      const newUser = await User.create(req.body);
+      res.status(201).json(newUser);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  module.exports = router;
+
+// Login route
+router.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    // Fetch the user by their email
+    const user = await User.findOne({ where: { email: req.body.email } });
 
-    const newUser = await User.create({
-      username,
-      password: await bcrypt.hash(password, 10),
-    });
+    if (!user) {
+      res.status(400).json({ message: 'Incorrect email or password' });
+      return;
+    }
 
-    req.session.save(() => {
-      req.session.user_id = newUser.id;
-      req.session.logged_in = true;
-      res.redirect('/dashboard');
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    // Check if the provided password matches the stored password
+    const isValidPassword = await user.checkPassword(req.body.password);
+
+    if (!isValidPassword) {
+      res.status(400).json({ message: 'Incorrect email or password' });
+      return;
+    }
+
+    // Set the `logged_in` session variable to `true` and the `user_id` session variable to the user's ID
+    req.session.logged_in = true;
+    req.session.user_id = user.id;
+
+    res.status(200).json({ message: 'Login successful' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
+// Logout route
 router.post('/logout', (req, res) => {
-  if (req.session.logged_in) {
-    req.session.destroy(() => {
-      res.status(204).end();
-    });
-  } else {
-    res.status(404).end();
-  }
+  // Clear the session data and redirect the user to the home page or any other desired page
+  req.session.destroy(() => {
+    res.status(200).json({ message: 'Logout successful' });
+  });
 });
 
 module.exports = router;

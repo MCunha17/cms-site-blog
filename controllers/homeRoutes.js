@@ -14,10 +14,10 @@ router.get('/', async (req, res) => {
     const posts = postData.map((post) => post.get({ plain: true }));
 
     // Render the home view and pass the serialized data and login status to the template
-    res.render('home', { posts, loggedIn: req.session.logged_in, layout: 'main' });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    res.render('home', { posts, loggedIn: req.session.logged_in });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

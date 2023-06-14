@@ -1,14 +1,11 @@
-// Imports dependencies
 const router = require('express').Router();
-const userRoutes = require('./userRoutes');
-const postRoutes = require('./postRoutes');
+
+// Import your route files
 const commentRoutes = require('./commentRoutes');
+const postRoutes = require('./postRoutes');
 
-// Defines routes for different entities
-// 'router.use' method mounts the middleware function specific to each route file
-router.use('/user', userRoutes);
-router.use('/post', postRoutes);
+// Set up your routes
 router.use('/comment', commentRoutes);
+router.use('/post', postRoutes);
 
-// Makes router available to use in other files
 module.exports = router;

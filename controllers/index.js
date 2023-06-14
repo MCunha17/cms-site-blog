@@ -1,19 +1,15 @@
-// Necessary dependencies
 const router = require('express').Router();
+
+// Import your route files
 const homeRoutes = require('./homeRoutes');
-const dashboardRoutes = require('./dashboardRoutes');
 const authRoutes = require('./authRoutes');
+const dashboardRoutes = require('./dashboardRoutes');
 const apiRoutes = require('./api');
 
-// Home routes
+// Set up your routes
 router.use('/', homeRoutes);
-
-// Dashboard routes
-router.use('/', dashboardRoutes);
-router.use('/', authRoutes);
-
-// API routes
+router.use('/auth', authRoutes);
+router.use('/dashboard', dashboardRoutes);
 router.use('/api', apiRoutes);
 
-// Exports the router
 module.exports = router;

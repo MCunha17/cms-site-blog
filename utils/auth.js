@@ -1,4 +1,4 @@
-const requireAuth = (req, res, next) => {
+const withAuth = (req, res, next) => {
   if (req.session.logged_in) {
     // User is authenticated, proceed to the next middleware or route handler
     next();
@@ -10,4 +10,4 @@ const requireAuth = (req, res, next) => {
   }
 };
 
-module.exports = { requireAuth };
+module.exports = { withAuth };

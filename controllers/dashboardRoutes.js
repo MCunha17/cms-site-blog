@@ -2,38 +2,19 @@ const router = require('express').Router();
 const { Post, User } = require('../models');
 const withAuth = require('../utils/auth');
 
+// Dashboard route
 router.get('/', withAuth, async (req, res) => {
   try {
+    // Fetch data needed for the dashboard from your models or database
     const userData = await User.findByPk(req.session.user_id);
     const postsData = await Post.findAll({ where: { user_id: req.session.user_id } });
 
-    const user = userData.get({ plain: true });
-    const posts = postsData.map((post) => post.get({ plain: true }));
-
-    res.render('dashboard', { user, posts, loggedIn: req.session.logged_in, layout: 'main' });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    // Render the dashboard view and pass the fetched data to the template
+    res.render('dashboard', { user: userData, posts: postsData, loggedIn: req.session.logged_in });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-});
-
-router.get('/post/:id', withAuth, async (req, res) => {
-  try {
-    const postData = await Post.findByPk(req.params.id, {
-      include: [{ model: User }],
-    });
-
-    const post = postData.get({ plain: true });
-
-    res.render('edit-post', { post, loggedIn: req.session.logged_in, layout: 'main' });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
-
-router.get('/new', withAuth, (req, res) => {
-  res.render('new-post', { loggedIn: req.session.logged_in, layout: 'main' });
 });
 
 module.exports = router;
