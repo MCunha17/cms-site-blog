@@ -59,23 +59,60 @@ router.get('/dashboard', async (req, res) => {
   }
 });
 
-// Home route
-router.get('/', async (req, res) => {
+// Edit post route
+router.get('/posts/edit/:id', async (req, res) => {
+  if (!req.session.logged_in) {
+    return res.redirect('/login');
+  }
   try {
-    // Fetch all blog posts from the database
-    const postData = await Post.findAll({
-      include: [{ model: User }],
-      order: [['createdAt', 'DESC']],
+    const dbPostsData = await Post.findByPk(req.params.id);
+    const postsData = dbPostsData.get({ plain: true });
+    res.render('editPost', {
+      title: 'Edit Post',
+      postsData: postsData,
+      signedIn: req.session.logged_in,
+      loggedOut: !req.session.logged_in,
     });
-
-    // Serialize the blog post data
-    const posts = postData.map((post) => post.get({ plain: true }));
-
-    // Render the home view and pass the serialized data and login status to the template
-    res.render('home', { posts, loggedIn: req.session.logged_in });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(404).render('error');
+  }
+});
+
+// View single post route
+// View a single post route
+router.get('/posts/:id', async (req, res) => {
+  try {
+    const dbPostData = await Post.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ['password', 'email'],
+          },
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: {
+                exclude: ['password', 'email'],
+              },
+            },
+          ],
+        },
+      ],
+    });
+    const postData = dbPostData.get({ plain: true });
+
+    res.render('singlePost', {
+      title: 'View Post',
+      postData: postData,
+      signedIn: req.session.logged_in,
+      loggedOut: !req.session.logged_in,
+    });
+  } catch (error) {
+    res.status(404).render('error');
   }
 });
 
