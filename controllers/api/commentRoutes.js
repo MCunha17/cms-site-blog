@@ -4,13 +4,13 @@ const withAuth = require('../../utils/auth');
 
 // Get comments
 // Renders 'comment-block' view if users are logged in with withAuth middleware
-router.post('/', withAuth, (req, res) => {
+router.post('/', requireAuth, (req, res) => {
   res.render('comment-block', { loggedIn: true });
 });
 
 // Create a new comment
 // Protected route with withAuth middleware to ensure users are authenticated/logged in
-router.post('/create', withAuth, async (req, res) => {
+router.post('/create', requireAuth, async (req, res) => {
   try {
     const newComment = await Comment.create({
       ...req.body,
@@ -25,7 +25,7 @@ router.post('/create', withAuth, async (req, res) => {
 
 // Delete a comment by ID
 // Protected route with withAuth middleware to ensure users are authenticated/logged in
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', requireAuth, async (req, res) => {
   try {
     const commentData = await Comment.destroy({
       where: {

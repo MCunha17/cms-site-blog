@@ -37,23 +37,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Handle POST request for user signup
-app.post('/signup', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    // Create a new user using the 'User.create' method from the 'User' model
-    const newUser = await User.create({ username, password });
-    // Set the 'logged_in' property to 'true' in the session
-    req.session.logged_in = true;
-    // Redirect to the dashboard or any other desired route
-    res.redirect('/dashboard');
-  } catch (error) {
-    console.error(error);
-    // If an error occurs, respond with an error message or redirect back to the signup page with a message
-    res.status(500).json({ error: 'Unable to complete signup.' });
-  }
-});
-
 app.use(routes);
 
 sequelize.sync({ force: false }).then(() => {

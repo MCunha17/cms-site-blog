@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { Post } = require('../../models');
-const withAuth = require('../../utils/auth');
+const requireAuth = require('../../utils/auth');
 
 // Post request to root path ('/post') of the router
-router.post('/post', withAuth, async (req, res) => {
+router.post('/post', requireAuth, async (req, res) => {
   try {
     // Creates new post using Post.create method from 'Post' model
     const newPost = await Post.create({
@@ -22,7 +22,7 @@ router.post('/post', withAuth, async (req, res) => {
 
 // Update a post by ID
 // Put request to 'post/:id' where id represents the id of the post to be updated
-router.put('/post/:id', withAuth, async (req, res) => {
+router.put('/post/:id', requireAuth, async (req, res) => {
   try {
     // Use 'Post.update' method to update the title and content
     const [updatedRows] = await Post.update(
@@ -50,7 +50,7 @@ router.put('/post/:id', withAuth, async (req, res) => {
 
 // Delete a post by ID
 // Delete request to '/post/:id' where ':id' represents the id of the post being deleted
-router.delete('/post/:id', withAuth, async (req, res) => {
+router.delete('/post/:id', requireAuth, async (req, res) => {
   try {
     const deletedPost = await Post.destroy({
       where: {
