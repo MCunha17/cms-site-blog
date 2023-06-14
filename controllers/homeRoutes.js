@@ -21,23 +21,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST route for user signup
-router.post('/signup', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    // Create a new user using the 'User.create' method from the 'User' model
-    const newUser = await User.create({ username, password });
-    // Set the 'logged_in' property to 'true' in the session
-    req.session.logged_in = true;
-    // Redirects to the '/dashboard' route
-    res.redirect('/dashboard');
-  } catch (error) {
-    console.error(error);
-    // If an error occurs, respond with an error message or redirect back to the signup page with a message
-    res.status(500).json({ error: 'Unable to complete signup.' });
-  }
-});
-
 // Dashboard route
 router.get('/dashboard', async (req, res) => {
   try {
@@ -59,16 +42,12 @@ router.get('/dashboard', async (req, res) => {
   }
 });
 
-// Login route
-router.get('/login', async (req, res) => {
-  res.render('login');
+router.get('/signup', (req, res) => {
+  res.render('signup');
 });
 
-// Logout route
-router.get('/logout', async (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/');
-  });
+router.get('/login', (req, res) => {
+  res.render('login');
 });
 
 module.exports = router;

@@ -33,7 +33,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Post request to '/signup'
 router.post('/signup', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -53,7 +52,7 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// Post reques to '/logout'
+// Post request to '/logout'
 router.post('/logout', (req, res) => {
   // If the user is logged in, it distroys session and responds with 204 status message
   if (req.session.logged_in) {
