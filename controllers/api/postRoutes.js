@@ -1,70 +1,51 @@
 const router = require('express').Router();
-const { Post } = require('../../models');
-const withAuth = require('../../utils/auth');
+const { Comment } = require('../../models');
+const withAuth = require('../../utils/withAuth');
 
-// Route for creating a new post
+// Create a new comment
 router.post('/', withAuth, async (req, res) => {
   try {
-    const newPost = await Post.create({
-      title: req.body.title,
-      content: req.body.content,
+    const newComment = await Comment.create({
+      ...req.body,
       user_id: req.session.user_id,
     });
 
-    res.status(201).json(newPost);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.json({ newComment, success: true });
+  } catch (err) {
+    res.sendStatus(500).send(err);
   }
 });
 
-// Route for updating a post
+// Update a comment
 router.put('/:id', withAuth, async (req, res) => {
   try {
-    const updatedPost = await Post.update(
-      {
-        title: req.body.title,
-        content: req.body.content,
-      },
-      {
-        where: {
-          id: req.params.id,
-          user_id: req.session.user_id,
-        },
-      }
-    );
-
-    if (updatedPost[0] === 0) {
-      res.status(404).json({ message: 'No post found with this id' });
-      return;
-    }
-
-    res.status(200).json({ message: 'Post updated successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Route for deleting a post
-router.delete('/:id', withAuth, async (req, res) => {
-  try {
-    const deletedPost = await Post.destroy({
+    await Comment.update(req.body, {
       where: {
         id: req.params.id,
-        user_id: req.session.user_id,
       },
     });
 
-    if (!deletedPost) {
-      res.status(404).json({ message: 'No post found with this id' });
-      return;
-    }
+    res.json({ success: true });
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500).send(err);
+  }
+});
 
-    res.status(200).json({ message: 'Post deleted successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+// Delete a comment
+router.delete('/:id', async (req, res) => {
+  try {
+    // Delete one comment by its `id` value
+    await Comment.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500).send(err);
   }
 });
 
