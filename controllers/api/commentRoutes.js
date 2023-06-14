@@ -5,7 +5,7 @@ const withAuth = require('../../utils/auth');
 // Get comments
 // Renders 'comment-block' view if users are logged in with withAuth middleware
 router.post('/', requireAuth, (req, res) => {
-  res.render('comment-block', { loggedIn: true });
+  res.render('comment-block', { loggedIn: true, layout:'main' });
 });
 
 // Create a new comment

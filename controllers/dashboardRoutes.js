@@ -10,7 +10,7 @@ router.get('/', withAuth, async (req, res) => {
     const user = userData.get({ plain: true });
     const posts = postsData.map((post) => post.get({ plain: true }));
 
-    res.render('dashboard', { user, posts, loggedIn: req.session.logged_in});
+    res.render('dashboard', { user, posts, loggedIn: req.session.logged_in, layout: 'main' });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -25,7 +25,7 @@ router.get('/post/:id', withAuth, async (req, res) => {
 
     const post = postData.get({ plain: true });
 
-    res.render('edit-post', { post, loggedIn: req.session.logged_in });
+    res.render('edit-post', { post, loggedIn: req.session.logged_in, layout: 'main' });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -33,7 +33,7 @@ router.get('/post/:id', withAuth, async (req, res) => {
 });
 
 router.get('/new', withAuth, (req, res) => {
-  res.render('new-post', { loggedIn: req.session.logged_in });
+  res.render('new-post', { loggedIn: req.session.logged_in, layout: 'main' });
 });
 
 module.exports = router;
