@@ -6,7 +6,7 @@ router.get('/signup', (req, res) => {
   if (req.session.logged_in) {
     return res.redirect('/');
   }
-  res.render('signup', { title: 'Sign Up' });
+  res.render('signup');
 });
 
 // Login route
@@ -14,7 +14,49 @@ router.get('/login', (req, res) => {
   if (req.session.logged_in) {
     return res.redirect('/');
   }
-  res.render('login', { title: 'Login' });
+  res.render('login');
+});
+
+// Create post route
+router.get('/post', (req, res) => {
+  if (!req.session.logged_in) {
+    return res.redirect('/');
+  }
+  res.render('createPost');
+});
+
+// Dashboard route
+router.get('/dashboard', async (req, res) => {
+  if (!req.session.logged_in) {
+    return res.redirect('/login');
+  }
+  try {
+    const dbPostsData = await Post.findAll({
+      where: {
+        user_id: req.session.user_id,
+      },
+      order: [['updatedAt', 'DESC']],
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ['password', 'email'],
+          },
+        },
+      ],
+    });
+    const postsData = dbPostsData.map((el) => el.get({ plain: true }));
+
+    res.render('dashboard', {
+      title: 'Dashboard',
+      postsData: postsData,
+      signedIn: req.session.logged_in,
+      loggedOut: !req.session.logged_in,
+      user: req.session.user_name,
+    });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
 });
 
 // Home route
