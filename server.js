@@ -1,10 +1,11 @@
 // Necessary dependencies
 const express = require('express');
-const path = require('path');
-const session = require('express-session');
-const exphbs = require('express-handlebars');
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
+const exphbs = require('express-handlebars');
+const path = require('path');
+const session = require('express-session');
+const withAuth = require('./utils/auth');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // Set up the Express app
@@ -19,6 +20,11 @@ const hbs = exphbs.create({
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Session middleware
 const sess = {
   secret: 'secret',
@@ -29,11 +35,6 @@ const sess = {
   }),
 };
 app.use(session(sess));
-
-// Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use(routes);
