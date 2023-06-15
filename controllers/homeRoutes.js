@@ -60,7 +60,7 @@ router.get('/dashboard', async (req, res) => {
 });
 
 // Edit post route
-router.get('/posts/edit/:id', async (req, res) => {
+router.get('/post/edit/:id', async (req, res) => {
   if (!req.session.logged_in) {
     return res.redirect('/login');
   }
@@ -80,7 +80,7 @@ router.get('/posts/edit/:id', async (req, res) => {
 
 // View single post route
 // View a single post route
-router.get('/posts/:id', async (req, res) => {
+router.get('/post/:id', async (req, res) => {
   try {
     const dbPostData = await Post.findByPk(req.params.id, {
       include: [
