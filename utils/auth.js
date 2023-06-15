@@ -4,9 +4,9 @@ const withAuth = (req, res, next) => {
       // User is authenticated, proceed to the next middleware or route handler
       next();
     } else {
-      // User is not authenticated, redirect to the login page or send an error response
-      res.status(401).json({ error: 'Unauthorized' });
+      // User is not authenticated, redirect to the sign-up page
+      res.redirect('/signup');
     }
   };
   
-module.exports = withAuth;
+  module.exports = withAuth;  

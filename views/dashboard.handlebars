@@ -1,14 +1,11 @@
-<h2>My Dashboard</h2>
-
 {{#if posts.length}}
-  {{#each posts}}
-    <div class="post">
-      <h3>{{title}}</h3>
-      <p class="post-details">
-        Posted by {{this.User.username}} on {{this.createdAt}}
-      </p>
-    </div>
-  {{/each}}
+  <!-- Iterate over existing posts -->
+  <ul>
+    {{#each posts}}
+      <li>{{this.title}}</li>
+    {{/each}}
+  </ul>
 {{else}}
-  <p>No posts available.</p>
+  <!-- Show button to create a new post -->
+  <a href="/create-post">Create New Post</a>
 {{/if}}
