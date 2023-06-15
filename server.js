@@ -5,7 +5,6 @@ const sequelize = require('./config/connection');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const session = require('express-session');
-const withAuth = require('./utils/auth');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // Set up the Express app
@@ -13,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 const sess = {
-  secret: 'Super',
+  secret: 'Secret',
   cookie: {},
   resave: false,
   saveUninitialized: true,
@@ -22,9 +21,17 @@ const sess = {
   }),
 };
 
+// Middleware function
+const customMiddleware = (req, res, next) => {
+  console.log('Custom middleware function is executed');
+  next();
+};
+
+app.use(customMiddleware);
+
 app.use(session(sess));
 
-const hbs = exphbs.create({ helpers });
+const hbs = exphbs.create;
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
