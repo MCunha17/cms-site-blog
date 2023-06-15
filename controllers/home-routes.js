@@ -38,6 +38,39 @@ router.get('/signup', (req, res) => {
   res.render('signup', { layout: 'main' });
 });
 
+// Signup route
+const { User } = require('../models');
+
+// Signup route
+router.get('/signup', (req, res) => {
+  res.render('signup', { layout: 'main' });
+});
+
+router.post('/signup', async (req, res) => {
+  try {
+    // Extract the user information from the request body
+    const { username, password } = req.body;
+
+    // Create a new user in the database
+    const user = await User.create({ username, password });
+
+    // Set the user's session to indicate successful registration
+    req.session.save(() => {
+      req.session.user_id = user.id;
+      req.session.username = user.username;
+      req.session.loggedIn = true;
+
+      // Redirect the user to the dashboard after successful registration
+      res.redirect('/dashboard');
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+    // Display an error message on the signup page
+    res.render('signup', { layout: 'main', errorMessage: 'Failed to register. Please try again.' });
+  }
+});
+
 // Dashboard route
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
