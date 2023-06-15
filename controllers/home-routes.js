@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Post, User } = require('../models');
+const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 // Get all posts for the homepage
@@ -118,13 +118,60 @@ router.post('/post/new', withAuth, async (req, res) => {
   }
 });
 
-// GET route for rendering the form to update a post
-router.get('/post/:id', withAuth, async (req, res) => {
+// Display a single post for commenting (from the home page)
+router.get('/post/:id', async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    // Find the post by ID
+    const post = await Post.findByPk(postId, {
+      include: [
+        {
+          model: User,
+          attributes: ['username'],
+        },
+        {
+          model: Comment,
+          include: {
+            model: User,
+            attributes: ['username'],
+          },
+        },
+      ],
+    });
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found.' });
+    }
+
+    // Render the post-view handlebars view and pass the post data
+    res.render('post-view', { layout: 'main', post: post.get({ plain: true }), loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occurred while fetching the post.' });
+  }
+});
+
+// Display a single post for updating and deleting (from the dashboard)
+router.get('/dashboard/post/:id', withAuth, async (req, res) => {
   try {
     // Find the post by ID
-    const post = await Post.findByPk(req.params.id);
+    const post = await Post.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['username'],
+        },
+        {
+          model: Comment,
+          include: {
+            model: User,
+            attributes: ['username'],
+          },
+        },
+      ],
+    });
 
-    // If the post doesn't exist, return a 404 status
     if (!post) {
       return res.status(404).json({ error: 'Post not found.' });
     }
@@ -142,7 +189,7 @@ router.get('/post/:id', withAuth, async (req, res) => {
   }
 });
 
-// PUT route for updating a post
+// Update a post
 router.put('/post/:id', withAuth, async (req, res) => {
   try {
     const postId = req.params.id;
@@ -174,7 +221,7 @@ router.put('/post/:id', withAuth, async (req, res) => {
   }
 });
 
-// DELETE route for deleting a post
+// Delete a post
 router.delete('/post/:id', withAuth, async (req, res) => {
   try {
     const postId = req.params.id;
