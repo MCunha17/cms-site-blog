@@ -1,21 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const { Post } = require('../../models');
-const withAuth = require('../../utils/auth');
+const { Post } = require('../models');
+const withAuth = require('../utils/auth');
 
-// Post a blog post
-router.post('/', withAuth, async (req, res) => {
+// Handle POST request for /post
+router.post('/post', withAuth, async (req, res) => {
   try {
+    // Extract the post data from the request body
+    const { title, content } = req.body;
+
     // Create a new post using the Post model
     const newPost = await Post.create({
-      ...req.body,
+      title,
+      content,
       user_id: req.session.user_id,
     });
 
-    // Return the newly created post as a response
-    res.status(200).json(newPost);
+    // Redirect the user to the dashboard or any other appropriate page
+    res.redirect('/dashboard');
   } catch (err) {
-    res.status(400).json({ error: 'An error occurred while creating the post.' });
+    console.log(err);
+    res.status(500).json({ error: 'An error occurred while creating the post.' });
   }
 });
 

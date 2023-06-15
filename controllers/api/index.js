@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const withAuth = require('../../utils/auth');
 const userRoutes = require('./user-routes');
-const postRoutes = require('./post-routes');
 const commentRoutes = require('./comment-routes');
+const withAuth = require('../../utils/auth');
 
-router.use(withAuth);
+
 
 router.use('/users', userRoutes);
-router.use('/posts', postRoutes);
-router.use('/comments', commentRoutes);
+router.use('/comments', withAuth, commentRoutes);
+
 
 module.exports = router;

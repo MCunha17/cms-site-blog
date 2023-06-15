@@ -1,11 +1,19 @@
+<h2>Dashboard</h2>
+
+{{!-- Display existing blog posts --}}
 {{#if posts.length}}
-  <!-- Iterate over existing posts -->
+  <h3>My Blog Posts</h3>
   <ul>
     {{#each posts}}
-      <li>{{this.title}}</li>
+      <li>
+        <h4>{{title}}</h4>
+        <p>{{content}}</p>
+      </li>
     {{/each}}
   </ul>
 {{else}}
-  <!-- Show button to create a new post -->
-  <a href="/create-post">Create New Post</a>
+  <p>No blog posts found.</p>
 {{/if}}
+
+{{!-- Button to create a new post --}}
+<a href="/post" class="btn btn-primary">Create New Post</a>
