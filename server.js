@@ -21,6 +21,10 @@ const sess = {
   }),
 };
 
+app.use(session(sess));
+
+const hbs = exphbs.create();
+
 // Middleware function
 const customMiddleware = (req, res, next) => {
   console.log('Custom middleware function is executed');
@@ -30,8 +34,6 @@ const customMiddleware = (req, res, next) => {
 app.use(customMiddleware);
 
 app.use(session(sess));
-
-const hbs = exphbs.create;
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
