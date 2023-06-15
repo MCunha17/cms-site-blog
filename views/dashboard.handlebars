@@ -6,8 +6,10 @@
   <ul>
     {{#each posts}}
       <li>
-        <h4>{{title}}</h4>
-        <p>{{content}}</p>
+        <a href="/post/{{id}}">
+          <h4>{{title}}</h4>
+          <p>{{content}}</p>
+        </a>
       </li>
     {{/each}}
   </ul>
@@ -16,4 +18,4 @@
 {{/if}}
 
 {{!-- Button to create a new post --}}
-<a href="/post" class="btn btn-primary">Create New Post</a>
+<a href="/post/new" class="btn btn-primary">Create New Post</a>

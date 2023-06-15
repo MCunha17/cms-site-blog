@@ -1,5 +1,5 @@
-// Necessary dependencies
 const express = require('express');
+const methodOverride = require('method-override');
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
 const exphbs = require('express-handlebars');
@@ -7,9 +7,10 @@ const path = require('path');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-// Set up the Express app
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+app.use(methodOverride('_method')); // Move this line up
 
 const sess = {
   secret: 'Secret',
