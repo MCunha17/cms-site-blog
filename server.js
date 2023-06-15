@@ -10,7 +10,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(methodOverride('_method')); // Move this line up
+app.use(methodOverride('_method'));
 
 const sess = {
   secret: 'Secret',

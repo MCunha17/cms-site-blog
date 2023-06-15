@@ -1,15 +1,11 @@
-<h2>Dashboard</h2>
-
-{{!-- Display existing blog posts --}}
 {{#if posts.length}}
-  <h3>My Blog Posts</h3>
   <ul>
     {{#each posts}}
       <li>
-        <a href="/post/{{id}}">
+        <a href="dashboard/post/{{id}}">
           <h4>{{title}}</h4>
-          <p>{{content}}</p>
         </a>
+        <p>Posted on: {{createdAt}}</p>
       </li>
     {{/each}}
   </ul>
@@ -17,5 +13,4 @@
   <p>No blog posts found.</p>
 {{/if}}
 
-{{!-- Button to create a new post --}}
-<a href="/post/new" class="btn btn-primary">Create New Post</a>
+<a href="/dashboard/post/new" class="btn btn-primary">+ New Post</a>

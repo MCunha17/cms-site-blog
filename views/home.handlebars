@@ -1,13 +1,14 @@
-{{#if posts}}
-  {{#each posts}}
-    <div class="post">
-      <h3>{{title}}</h3>
-      <p class="post-details">
-        Posted by {{User.username}} on {{createdAt}}
-      </p>
-      <a href="/post/{{id}}">View Post</a>
-    </div>
-  {{/each}}
+{{#if posts.length}}
+  <ul>
+    {{#each posts}}
+      <li>
+        <a href="/post/{{id}}">
+          <h4>{{title}}</h4>
+        </a>
+        <p>Posted on: {{createdAt}}</p>
+      </li>
+    {{/each}}
+  </ul>
 {{else}}
-  <p>No posts available.</p>
+  <p>No blog posts found.</p>
 {{/if}}
