@@ -1,7 +1,7 @@
 {{#if posts.length}}
-  <ul>
+  <ul class="post-list">
     {{#each posts}}
-      <li>
+      <li class="post-item">
         <a href="dashboard/post/{{id}}">
           <h4>{{title}}</h4>
         </a>
@@ -9,8 +9,8 @@
       </li>
     {{/each}}
   </ul>
-{{else}}
-  <p>No blog posts found.</p>
 {{/if}}
 
-<a href="/dashboard/post/new" class="btn btn-primary">+ New Post</a>
+<div class="add-new-post">
+  <a href="/dashboard/post/new" class="new-post-button">+ New Post</a>
+</div>
