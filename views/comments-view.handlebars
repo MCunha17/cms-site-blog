@@ -1,13 +1,38 @@
-<div class="post">
-  <h2>{{post.title}}</h2>
-  <p>{{post.body}}</p>
-  <p>By: {{post.User.username}}</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Single Post</title>
+</head>
 
-<h3>Comments:</h3>
-{{#each comments}}
-  <div class="comment">
-    <p>{{this.comment_text}}</p>
-    <p>By: {{this.User.username}}</p>
+<body>
+
+  <div class="container">
+      <div class="header">
+        <div class="title">
+          <h4>{{post.title}}</h4>
+        </div>
+        <div class="details">
+          <p>Posted on: {{post.User.username}} on {{this.post.createdAt}}</p>
+        </div>
+      </div>
+      <div class="content">
+        <p>{{post.content}}</p>
+      </div>
+    </div>
   </div>
-{{/each}}
+
+  <div class="container">
+    <div class="header"></div>
+    <div class="content">
+      <h3>Comments:</h3>
+      {{#each comments}}
+      <div class="comment">
+        <p>{{this.comment_text}}</p>
+        <p>By: {{this.User.username}}</p>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+</body>
+</html>

@@ -4,28 +4,54 @@
   <title>Single Post</title>
 </head>
 <body>
-  <h3>{{post.title}}</h3>
-  <p class="post-details">Posted by {{post.User.username}} on {{post.createdAt}}</p>
-  <p>{{post.content}}</p>
-
-  <h4>Comments:</h4>
-  {{#if comments.length}}
-    {{#each comments}}
-      <div class="comment">
-        <p>{{comment_text}}</p>
-        <p class="comment-details">Comment by {{User.username}}</p>
+  <div class="container">
+    <div class="header">
+      <div class="title">
+        <h4>{{post.title}}</h4>
       </div>
-    {{/each}}
-  {{else}}
-    <p>No comments available.</p>
-  {{/if}}
-
-  <form action="/post/{{post.id}}/comments" method="POST">
-    <div class="form-group">
-      <label for="comment">Add Comment:</label>
-      <textarea id="comment" name="comment"></textarea>
+      <div class="details">
+        <p>Posted on: {{post.User.username}} on {{post.createdAt}}</p>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Add Comment</button>
-  </form>
+    <div class="content">
+      <p>{{post.content}}</p>
+    </div>
+  </div>
+
+  {{#unless showCommentSubmitted}}
+  <div class="container" id="comment-form">
+    <div class="content">
+      <form action="/post/{{post.id}}/comments" method="POST" onsubmit="hideCommentForm(event)">
+        <div class="form-group">
+          <label for="comment">Comment:</label>
+          <textarea id="comment" name="comment"></textarea>
+        </div>
+        <button type="submit" class="primary-btn">Submit</button>
+      </form>
+    </div>
+  </div>
+  {{/unless}}
+
+  <div class="container" id="show-comments" style="display: {{#if showCommentSubmitted}}block{{else}}none{{/if}}">
+    <div class="content">
+      {{#if comments.length}}
+        {{#each comments}}
+        <div class="comment">
+          <p>{{comment_text}}</p>
+          <p class="comment-details">Comment by {{User.username}}</p>
+        </div>
+        {{/each}}
+      {{/if}}
+    </div>
+  </div>
+
+  <script>
+    function hideCommentForm(event) {
+      event.preventDefault();
+
+      document.getElementById("comment-form").style.display = "none";
+      document.getElementById("show-comments").style.display = "block";
+    }
+  </script>
 </body>
 </html>

@@ -131,10 +131,20 @@ router.get('/post/:id', withAuth, async (req, res) => {
       return res.status(404).json({ error: 'Post not found.' });
     }
 
+    const comments = await Comment.findAll({
+      where: { post_id: postId },
+      include: {
+        model: User,
+        attributes: ['username'],
+      },
+    });
+
     res.render('single-post', {
       layout: 'main',
       post: post.get({ plain: true }),
+      comments: comments.map((comment) => comment.get({ plain: true })),
       loggedIn: req.session.loggedIn,
+      showCommentForm: true,
     });
   } catch (err) {
     console.log(err);
@@ -154,35 +164,10 @@ router.post('/post/:id/comments', withAuth, async (req, res) => {
       post_id: postId,
     });
 
-    // Redirect to the comments-view
-    res.redirect(`/post/${postId}/comments`);
+    res.redirect(`/post/${postId}`);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: 'An error occurred while adding the comment.' });
-  }
-});
-
-// Display comments for a single post
-router.get('/post/:id/comments', withAuth, async (req, res) => {
-  const postId = req.params.id;
-
-  try {
-    const comments = await Comment.findAll({
-      where: { post_id: postId },
-      include: {
-        model: User,
-        attributes: ['username'],
-      },
-    });
-
-    res.render('comments-view', {
-      layout: 'main',
-      comments: comments.map((comment) => comment.get({ plain: true })),
-      loggedIn: req.session.loggedIn,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'An error occurred while fetching the comments.' });
   }
 });
 

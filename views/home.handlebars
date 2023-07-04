@@ -1,21 +1,21 @@
 {{#if posts.length}}
   <ul class="post-list">
     {{#each posts}}
-      <li class="post-item">
-        <div class="post-header">
-          <div class="post-title">
+      <div class="container">
+        <div class="header">
+          <div class="title">
             <a href="/post/{{id}}">
               <h4>{{title}}</h4>
             </a>
           </div>
-          <div class="post-details">
+          <div class="details">
             <p>Posted on: {{User.username}} on {{createdAt}}</p>
           </div>
         </div>
-        <div class="post-content">
+        <div class="content">
           <p>{{text}}</p>
         </div>
-      </li>
+      </div>
     {{/each}}
   </ul>
 {{else}}
