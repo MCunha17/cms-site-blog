@@ -1,22 +1,12 @@
 {
-  "dependencies": {
-    "bcrypt": "^5.1.0",
-    "connect-session-sequelize": "^7.1.7",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "express-handlebars": "^7.0.7",
-    "express-session": "^1.17.3",
-    "method-override": "^3.0.0",
-    "mysql2": "^3.4.3",
-    "sequelize": "^6.32.1"
-  },
+  "name": "cms-site-blog",
+  "version": "1.0.0",
+  "description": "* npm init * npm install express * npm install express-handlebars  * npm install mysql2 * npm install sequelize  * npm install dotenv * npm install bcrypt  * npm install express-session  * npm install connect-session-sequelize",
+  "main": "server.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "name": "cms-site-blog",
-  "description": "* npm express *",
-  "version": "1.0.0",
-  "main": "app.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MCunha17/cms-site-blog.git"
@@ -26,5 +16,15 @@
   "bugs": {
     "url": "https://github.com/MCunha17/cms-site-blog/issues"
   },
-  "homepage": "https://github.com/MCunha17/cms-site-blog#readme"
+  "homepage": "https://github.com/MCunha17/cms-site-blog#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "connect-session-sequelize": "^7.1.7",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.0.7",
+    "express-session": "^1.17.3",
+    "mysql2": "^3.4.3",
+    "sequelize": "^6.32.1"
+  }
 }
