@@ -1,23 +1,31 @@
+<!-- Checks if there are any posts -->
 {{#if posts.length}}
+  <!-- Post list -->
   <ul class="post-list">
+    <!-- Loop through each post -->
     {{#each posts}}
     <li>
       <div class="container">
         <div class="header">
           <div class="title">
+            <!-- Link that navigates to individual post page -->
             <a href="/post/{{id}}">
+              <!-- Display post title -->
               <h1>{{title}}</h1>
             </a>
           </div>
           <div class="details">
+            <!-- Display username of the post author and the formatted date of creation -->
             <p>Posted by {{user.username}} on {{formatDate createdAt}}</p>
           </div>
         </div>
         <div class="content">
+          <!-- Display post content -->
           <p>{{content}}</p>
         </div>
       </div>
     </li>
+    <!-- End of loop -->
     {{/each}}
   </ul>
 {{/if}}

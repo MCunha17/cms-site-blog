@@ -1,20 +1,28 @@
+<!-- Checks if there are any posts -->
 {{#if posts.length}}
+  <!-- Post list -->
   <ul class="post-box">
+    <!-- Loop through each post -->
     {{#each posts}}
     <li>
       <div class="post-box">
         <div class="post-title">
+          <!-- Link to the edit page of the individual post -->
           <a href="dashboard/post/{{id}}/edit">
+            <!-- Display post title -->
             <h2>{{title}}</h2>
           </a>
+          <!-- Display the formatted date of post creation -->
           <p class="post-date">{{formatDate createdAt}}</p>
         </div>
       </div>
     </li>
+      <!-- End of loop -->
       {{/each}}
   </ul>
 {{/if}}
 
 <div class="add-new-post">
+  <!-- Button linking to the new post creation page -->
   <a href="/dashboard/post/new" class="new-post-button">+ New Post</a>
 </div>

@@ -17,15 +17,22 @@ router.get('/dashboard', withAuth, async (req, res) => {
         include: { model: Post }
       });
   
+      // Extract plain JavaScript object from the fetched data
       const user = userPosts.get({ plain: true });
+      // Extract the posts associated with the user
       const posts = user.posts || [];
   
-      res.render('dashboard', { 
+      // Render the 'dashboard' template and pass data to it
+      res.render('dashboard', {
+        // Use the 'main' layout for the template
         layout: 'main',
+        // Pass the user's posts to the template
         posts,
+        // Pass the login status to the template
         loggedIn: req.session.loggedIn
       });
     } catch (err) {
+      // Log any errors that occur
       console.log(err);
       res.status(500).json(err);
     }
@@ -49,12 +56,14 @@ router.get('/dashboard', withAuth, async (req, res) => {
         user_id: req.session.user_id,
       });
   
-      // Redirect the user to the dashboard or any other appropriate page
+      // Redirect the user to the dashboard
       res.redirect('/dashboard');
     } catch (err) {
+      // Log any errors that occur
       console.log(err);
       res.status(500).json({ error: 'An error occurred while creating the post.' });
     }
   });
 
-  module.exports = router;
+// Export the router for use in other files
+module.exports = router;

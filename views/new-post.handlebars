@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>New Post</title>
 </head>
+
 <body>
+  <!-- New post form -->
   <div class="container">
     <div class="header">
       <h1>Create New Post</h1>
     </div>
     <div class="content">
     <form action="/dashboard/post" method="POST">
+      <!-- Enter post title -->
       <div class="form-group">
         <label for="title">Title:</label>
         <input type="text" name="title">
       </div>
+      <!-- Enter post content -->
       <div class="form-group">
         <label for="content">Content:</label>
         <input type="text" name="content">
       </div>
+      <!-- Create new post button -->
       <button type="submit" class="primary-btn">Create</button>
     </form>
   </div>
 </body>
+
 </html>

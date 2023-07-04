@@ -7,6 +7,7 @@ let sequelize;
 if (process.env.JAWSDB_URL) {
   // Set up Sequelize connection using the JAWSDB_URL
   sequelize = new Sequelize(process.env.JAWSDB_URL, {
+    // Configure the dialect as MySQL
     dialect: 'mysql'
   });
 } else {
@@ -24,4 +25,5 @@ if (process.env.JAWSDB_URL) {
   );
 }
 
+// Export the Sequelize connection for use in other files
 module.exports = sequelize;

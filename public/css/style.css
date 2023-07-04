@@ -1,4 +1,4 @@
-/* Reset default styles */
+/* Default styles */
 * {
   margin: 0;
   padding: 0;
@@ -31,8 +31,7 @@ h2 {
 .navbar {
   display: flex;
   flex-direction: column;
-  padding-top: 15px;
-  padding-left: 25px;
+  padding: 15px 25px;
 }
 
 .navbar li {
@@ -47,8 +46,7 @@ h2 {
 .logo {
   display: inline-block;
   max-width: 250px;
-  margin-top: 10px;
-  margin-bottom: 25px;
+  margin: 10px 0 25px;
   padding: 10px;
   text-align: center;
   border-radius: 5px;
@@ -62,9 +60,7 @@ h2 {
 /* Shared styling */
 .container {
   max-width: 800px;
-  margin-top: 25px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 25px auto;
 }
 
 .header {
@@ -72,28 +68,21 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 5px 10px;
   background-color: black;
   color: #D9EAD3;
   font-size: 18px;
 }
 
 .content {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
   border: 2px solid black;
   background-color: #D9EAD3;
 }
 
 .primary-btn {
     width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
     background-color: gray;
@@ -118,6 +107,7 @@ textarea {
   color: blue;
 }
 
+/* Creating a new post */
 .add-new-post {
   max-width: 800px;
   display: flex;
@@ -169,13 +159,13 @@ li {
   margin-bottom: 10px;
 }
 
+/* Comment details */
 .comment-details {
-  font-style: italic;
   font-size: 14px;
-  color: #888;
+  color: black;
 }
 
-/* Posted by text */
+/* 'Posted by' text */
 .details p {
   font-size: 12px;
 }

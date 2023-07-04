@@ -1,25 +1,32 @@
 <!-- login.handlebars -->
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Login</title>
 </head>
+
 <body>
+  <!-- Login container -->
   <div class="container">
     <div class="header">
       <h1>Login</h1>
     </div>
     <div class="content">
       <form action="/login" method="POST">
+        <!-- Enter username -->
         <div class="form-group">
           <label for="username">Username</label>
           <input type="text" id="username" name="username" required>
         </div>
+        <!-- Enter password -->
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required>
         </div>
+        <!-- Login button -->
         <button type="submit" class="primary-btn">Login!</button>
+        <!-- Option to sign up instead -->
         <a href="/signup">Sign up instead</a>
       </form>
   </div>

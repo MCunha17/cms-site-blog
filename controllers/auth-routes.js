@@ -4,6 +4,7 @@ const { User } = require('../models');
 
 // GET Login route
 router.get('/login', (req, res) => {
+    // Render the 'login' template with the 'main' layout
     res.render('login', { layout: 'main' });
   });
   
@@ -37,6 +38,7 @@ router.get('/login', (req, res) => {
         res.redirect('/dashboard');
       });
     } catch (err) {
+      // Log any errors that occur
       console.log(err);
       res.status(500).json(err);
     }
@@ -44,6 +46,7 @@ router.get('/login', (req, res) => {
   
   // GET Signup route
   router.get('/signup', (req, res) => {
+    // Render the 'signup' template with the 'main' layout
     res.render('signup', { layout: 'main' });
   });
   
@@ -64,6 +67,7 @@ router.get('/login', (req, res) => {
       // Redirect the user to the dashboard
       res.redirect('/dashboard');
     } catch (err) {
+      // Log any errors that occur
       console.log(err);
       res.status(500).json(err);
       // Display an error message on the signup page
@@ -75,8 +79,10 @@ router.get('/login', (req, res) => {
   router.get('/logout', (req, res) => {
     // Clear the session and log out the user
     req.session.destroy(() => {
-      // Redirect to the home page
-      res.redirect('/');
+      // Redirect to the login page
+      res.redirect('/login');
     });
   });
-  module.exports = router;
+
+// Export the router for use in other files
+module.exports = router;

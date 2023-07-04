@@ -73,100 +73,103 @@ router.get('/post/:id', withAuth, async (req, res) => {
     }
   });
 
-  // GET Display a single post for updating and deleting
+// GET Display a single post for updating and deleting
 router.get('/dashboard/post/:id/edit', withAuth, async (req, res) => {
-    try {
-      const postId = req.params.id;
-      // Find the post by ID
-      const post = await Post.findByPk(postId, {
-        include: [
-          {
+  try {
+    const postId = req.params.id;
+    // Find the post by ID
+    const post = await Post.findByPk(postId, {
+      include: [
+        {
+          model: User,
+          attributes: ['username'],
+        },
+        {
+          model: Comment,
+          include: {
             model: User,
             attributes: ['username'],
           },
-          {
-            model: Comment,
-            include: {
-              model: User,
-              attributes: ['username'],
-            },
-          },
-        ],
-      });
+        },
+      ],
+    });
   
-      if (!post) {
-        return res.status(404).json({ error: 'Post not found.' });
-      }
-  
-      res.render('update-post', {
-        layout: 'main',
-        post: post.get({ plain: true }),
-        loggedIn: req.session.loggedIn,
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: 'Unable to retrieve post.' });
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found.' });
     }
-  });
   
-  // PUT Update a post
-  router.put('/dashboard/post/:id/edit', withAuth, async (req, res) => {
-    try {
-      const postId = req.params.id;
-      const { title, content } = req.body;
+    res.render('update-post', {
+      layout: 'main',
+      post: post.get({ plain: true }),
+      loggedIn: req.session.loggedIn,
+    });
+  } catch (err) {
+    // Log any errors that occur
+    console.log(err);
+    res.status(500).json({ error: 'Unable to retrieve post.' });
+  }
+});
   
-      // Find the post by ID
-      const post = await Post.findByPk(postId);
+// PUT Update a post
+router.put('/dashboard/post/:id/edit', withAuth, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { title, content } = req.body;
   
-      if (!post) {
-        return res.status(404).json({ error: 'Post not found.' });
-      }
+    // Find the post by ID
+    const post = await Post.findByPk(postId);
   
-      // Ensure that the post belongs to the logged in user
-      if (post.user_id !== req.session.user_id) {
-        return res.status(403).json({ error: 'Unauthorized access.' });
-      }
-  
-      // Update the post data
-      await post.update({
-        title,
-        content
-      });
-  
-      // Redirect the user back to the dashboard
-      res.redirect(`/dashboard`);
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: 'An error occurred while updating the post.' });
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found.' });
     }
-  });
   
-  // DELETE a post
-  router.delete('/dashboard/post/:id/edit', withAuth, async (req, res) => {
-    try {
-      const postId = req.params.id;
-  
-      // Find the post by ID
-      const post = await Post.findByPk(postId);
-  
-      if (!post) {
-        return res.status(404).json({ error: 'Post not found.' });
-      }
-  
-      // Ensure that the post belongs to the logged in user
-      if (post.user_id !== req.session.user_id) {
-        return res.status(403).json({ error: 'Unauthorized access.' });
-      }
-  
-      // Delete the post
-      await post.destroy();
-  
-      // Redirect the user back to the dashboard
-      res.redirect('/dashboard');
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: 'An error occurred while deleting the post.' });
+    // Ensure that the post belongs to the logged in user
+    if (post.user_id !== req.session.user_id) {
+      return res.status(403).json({ error: 'Unauthorized access.' });
     }
-  });
+  
+    // Update the post data
+    await post.update({
+      title,
+      content
+    });
+  
+    // Redirect the user back to the dashboard
+    res.redirect(`/dashboard`);
+  } catch (err) {
+    // Log any errors that occur
+    console.log(err);
+    res.status(500).json({ error: 'Unable to update post.' });
+  }
+});
+  
+// DELETE a post
+router.delete('/dashboard/post/:id/edit', withAuth, async (req, res) => {
+  try {
+    const postId = req.params.id;
+  
+    // Find the post by ID
+    const post = await Post.findByPk(postId);
+  
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found.' });
+    }
+  
+    // Ensure that the post belongs to the logged in user
+    if (post.user_id !== req.session.user_id) {
+      return res.status(403).json({ error: 'Unauthorized access.' });
+    }
+  
+    // Delete the post
+    await post.destroy();
+  
+    // Redirect the user back to the dashboard
+    res.redirect('/dashboard');
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Unable to delet post.' });
+  }
+});
 
-  module.exports = router;
+// Export the router for user in other files
+module.exports = router;

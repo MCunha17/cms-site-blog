@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Update Post</title>
 </head>
+
 <body>
+  <!-- Update post container -->
   <div class="container">
     <div class="header">
       <h1>Edit Post</h1>
     </div>
     <div class="content">
       <form action="/dashboard/post/{{post.id}}/edit?_method=PUT" method="POST">
+        <!-- Update post title -->
         <div class="form-group">
           <label for="title">Title</label>
           <input type="text" id="title" name="title" value="{{post.title}}">
         </div>
+        <!-- Update post content -->
         <div class="form-group">
           <label for="content">Content</label>
           <textarea id="content" name="content">{{post.content}}</textarea>
         </div>
+        <!-- Update post button -->
         <button type="submit" class="primary-btn">Update Post</button>
       </form>
+      <!-- Delete post button -->
       <form action="/dashboard/post/{{post.id}}/edit?_method=DELETE" method="POST">
         <button type="submit" class="primary-btn">Delete</button>
       </form>
     </div>
   </div>
 </body>
+
 </html>

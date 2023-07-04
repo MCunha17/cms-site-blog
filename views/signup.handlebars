@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Signup</title>
 </head>
+
 <body>
+  <!-- Sign up container -->
   <div class="container">
     <div class="header">
       <h1>Sign Up</h1>
     </div>
     <div class="content">
       <form action="/signup" method="POST">
+        <!-- Enter username -->
         <div class="form-group">
           <label for="username">Username:</label>
           <input type="text" id="username" name="username" required>
         </div>
+        <!-- Enter password -->
         <div class="form-group">
           <label for="password">Password:</label>
           <input type="password" id="password" name="password" required>
         </div>
+        <!-- Sign up button -->
         <button type="submit" class="primary-btn">Sign Up!</button>
+        <!-- Option to login instead -->
         <a href="/login">Login instead</a></p>
       </form>
     </div>
   </div>
 </body>
+
 </html>
