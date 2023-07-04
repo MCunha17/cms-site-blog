@@ -1,5 +1,4 @@
 const express = require('express');
-const methodOverride = require('method-override');
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
 const exphbs = require('express-handlebars');
@@ -11,9 +10,6 @@ const helpers = require('./utils/helpers');
 // Create a new Express application
 const app = express();
 const PORT = process.env.PORT || 3001;
-
-// Middleware
-app.use(methodOverride('_method'));
 
 const sess = {
   // Set a secret for the session

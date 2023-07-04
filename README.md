@@ -9,7 +9,7 @@ The CMS Site Blog is an application that allows users to publish articles, blog 
 
 CMS blogs are an essential tool in today's digital landscape, offering developers and content creators a streamlined and efficient way to manage and publish online content. Furthermore, CMS blogs enhance user engagement and interaction through features like commenting. By leveraging the capabilities of CMS blogs, developers and content creators can focus on producing high-quality content, fostering engagement, and expanding their online presence.
 
-![Screenshot of application](placholder)
+![Screenshot of application](public/assets/images/cms-site-blog-screenshot.png)
 
 ## Table of Contents
 * [Site](#site)
