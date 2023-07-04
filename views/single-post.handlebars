@@ -7,10 +7,10 @@
   <div class="container">
     <div class="header">
       <div class="title">
-        <h4>{{post.title}}</h4>
+        <h1>{{post.title}}</h1>
       </div>
       <div class="details">
-        <p>Posted on: {{post.User.username}} on {{post.createdAt}}</p>
+        <p>Posted by {{post.user.username}} on {{formatDate post.createdAt}}</p>
       </div>
     </div>
     <div class="content">
@@ -20,10 +20,11 @@
 
   {{#unless showCommentSubmitted}}
   <div class="container" id="comment-form">
+    <div class="header"></div>
     <div class="content">
       <form action="/post/{{post.id}}/comments" method="POST" onsubmit="hideCommentForm(event)">
         <div class="form-group">
-          <label for="comment">Comment:</label>
+          <label for="comment">Comment</label>
           <textarea id="comment" name="comment"></textarea>
         </div>
         <button type="submit" class="primary-btn">Submit</button>
@@ -32,26 +33,42 @@
   </div>
   {{/unless}}
 
-  <div class="container" id="show-comments" style="display: {{#if showCommentSubmitted}}block{{else}}none{{/if}}">
+  <div class="container" id="show-comments" style="display: {{#if showcommentubmitted}}block{{else}}none{{/if}}">
     <div class="content">
-      {{#if comments.length}}
+      {{#if comments}}
         {{#each comments}}
         <div class="comment">
-          <p>{{comment_text}}</p>
-          <p class="comment-details">Comment by {{User.username}}</p>
+          <p>{{this.comment_text}}</p>
+          <p class="comment-details">Comment by {{this.user.username}}</p>
         </div>
         {{/each}}
+      {{else}}
+        <p>No comments found.</p>
       {{/if}}
     </div>
   </div>
 
-  <script>
-    function hideCommentForm(event) {
-      event.preventDefault();
+<script>
+async function hideCommentForm(event) {
+  event.preventDefault();
 
-      document.getElementById("comment-form").style.display = "none";
-      document.getElementById("show-comments").style.display = "block";
-    }
-  </script>
+  const form = event.target;
+  const comment = form.elements.comment.value;
+  const response = await fetch(form.action, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ comment }),
+  });
+
+  if (response.ok) {
+    document.getElementById("comment-form").style.display = "none";
+    document.getElementById("show-comments").style.display = "block";
+  } else {
+    alert('Failed to post comment');
+  }
+}
+</script>
 </body>
 </html>

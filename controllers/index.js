@@ -8,6 +8,7 @@ router.use('/login', homeRoutes);
 router.use('/signup', homeRoutes);
 router.use('/dashboard', withAuth, homeRoutes);
 router.use('/dashboard/post/:id', withAuth, homeRoutes);
+router.use('/dashboard/post/:id/edit', withAuth, homeRoutes);
 router.use('/post', withAuth, homeRoutes);
 router.use('/post/:id', withAuth, homeRoutes);
 router.use('/post/:id/comments', withAuth, homeRoutes);

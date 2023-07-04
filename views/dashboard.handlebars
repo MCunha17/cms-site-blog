@@ -1,13 +1,17 @@
 {{#if posts.length}}
-  <ul class="post-list">
+  <ul class="post-box">
     {{#each posts}}
-      <li class="post-item">
-        <a href="dashboard/post/{{id}}">
-          <h4>{{title}}</h4>
-        </a>
-        <p>Posted on: {{createdAt}}</p>
-      </li>
-    {{/each}}
+    <li>
+      <div class="post-box">
+        <div class="post-title">
+          <a href="dashboard/post/{{id}}/edit">
+            <h2>{{title}}</h2>
+          </a>
+          <p class="post-date">{{formatDate createdAt}}</p>
+        </div>
+      </div>
+    </li>
+      {{/each}}
   </ul>
 {{/if}}
 

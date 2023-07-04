@@ -1,23 +1,23 @@
 {{#if posts.length}}
   <ul class="post-list">
     {{#each posts}}
+    <li>
       <div class="container">
         <div class="header">
           <div class="title">
             <a href="/post/{{id}}">
-              <h4>{{title}}</h4>
+              <h1>{{title}}</h1>
             </a>
           </div>
           <div class="details">
-            <p>Posted on: {{User.username}} on {{createdAt}}</p>
+            <p>Posted by {{user.username}} on {{formatDate createdAt}}</p>
           </div>
         </div>
         <div class="content">
-          <p>{{text}}</p>
+          <p>{{content}}</p>
         </div>
       </div>
+    </li>
     {{/each}}
   </ul>
-{{else}}
-  <p>No blog posts found.</p>
 {{/if}}

@@ -189,7 +189,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
     const posts = user.posts || [];
 
     res.render('dashboard', { 
-      layout: 'main',
+      layout: 'dashlayout',
       posts,
       loggedIn: req.session.loggedIn
     });
@@ -254,16 +254,22 @@ router.post('/dashboard/post', withAuth, async (req, res) => {
 });
 
 // GET Display a single post for updating and deleting
-router.get('/dashboard/post/:id', withAuth, async (req, res) => {
+router.get('/post/:id/edit', withAuth, async (req, res) => {
   try {
     const postId = req.params.id;
-
     // Find the post by ID
     const post = await Post.findByPk(postId, {
       include: [
         {
           model: User,
           attributes: ['username'],
+        },
+        {
+          model: Comment,
+          include: {
+            model: User,
+            attributes: ['username'],
+          },
         },
       ],
     });
@@ -275,16 +281,16 @@ router.get('/dashboard/post/:id', withAuth, async (req, res) => {
     res.render('update-post', {
       layout: 'main',
       post: post.get({ plain: true }),
-      loggedIn: req.session.loggedIn
+      loggedIn: req.session.loggedIn,
     });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: 'An error occurred while fetching the post.' });
+    res.status(500).json({ error: 'Unable to retrieve post.' });
   }
 });
 
 // PUT Update a post
-router.put('/dashboard/post/:id', withAuth, async (req, res) => {
+router.put('/post/:id', withAuth, async (req, res) => {
   try {
     const postId = req.params.id;
     const { title, content } = req.body;
@@ -307,8 +313,8 @@ router.put('/dashboard/post/:id', withAuth, async (req, res) => {
       content
     });
 
-    // Redirect the user back to the dashboard
-    res.redirect('/dashboard');
+    // Redirect the user back to the single post page
+    res.redirect(`/post/${postId}`);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: 'An error occurred while updating the post.' });

@@ -6,6 +6,7 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const helpers = require('./utils/helpers'); // Import the helpers file
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -24,7 +25,9 @@ const sess = {
 
 app.use(session(sess));
 
-const hbs = exphbs.create();
+const hbs = exphbs.create({
+  helpers: helpers, // Include the helpers object
+});
 
 // Middleware function
 const customMiddleware = (req, res, next) => {
